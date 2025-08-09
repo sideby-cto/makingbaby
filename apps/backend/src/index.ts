@@ -1,4 +1,5 @@
 import express from 'express';
+
 import mongoose from 'mongoose';
 import { config } from './config';
 
@@ -15,6 +16,9 @@ mongoose.model('User', UserSchema);
 
 const app = express();
 const port = config.port;
+
+app.use(express.json());
+app.use('/auth', authRouter);
 
 app.get('/api/hello', (_req, res) => {
   res.json({ message: 'Hello from backend' });
