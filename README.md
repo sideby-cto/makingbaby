@@ -28,6 +28,7 @@ Run frontend:
 npm run dev -w frontend
 ```
 
+
 Run both apps concurrently:
 
 ```
@@ -61,3 +62,4 @@ vercel --prod apps/frontend
 ### Render
 
 The `render.yaml` config demonstrates how to deploy the backend on Render.
+

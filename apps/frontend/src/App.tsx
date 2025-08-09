@@ -1,4 +1,6 @@
+
 import { useEffect, useState } from 'react';
+import LoginForm from './LoginForm';
 
 export default function App() {
   const [message, setMessage] = useState('Loading...');
@@ -10,5 +12,11 @@ export default function App() {
       .catch(() => setMessage('Error fetching message'));
   }, []);
 
-  return <h1>{message}</h1>;
+  return (
+    <>
+      <h1>{message}</h1>
+      <LoginForm />
+    </>
+
+  );
 }
