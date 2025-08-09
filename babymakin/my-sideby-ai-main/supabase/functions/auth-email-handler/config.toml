@@ -1,0 +1,6 @@
+
+# This function handles email verification and password reset links that might have been modified
+# by email clients, ensuring users can still complete authentication flows
+
+[functions.auth-email-handler]
+verify_jwt = false

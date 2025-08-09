@@ -1,0 +1,62 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*  styling scrollbars  */
+::-webkit-scrollbar {
+  width: 5px;
+  max-height: 10px !important;
+  min-height: 10px !important;
+  height: 10px !important;
+  margin: 0 2px;
+}
+
+/* ::-webkit-scrollbar-track {
+  background: transparent;
+} */
+
+::-webkit-scrollbar-thumb {
+  background: #304a78;
+  border-radius: 20px;
+  padding: 0 2px;
+}
+
+@font-face {
+  font-family: "inter";
+  src: url("./assets/fonts/Inter-Regular.ttf");
+}
+@font-face {
+  font-family: "interBlack";
+  src: url("./assets/fonts/Inter-Black.ttf");
+}
+@font-face {
+  font-family: "interBold";
+  src: url("./assets/fonts/Inter-Bold.ttf");
+}
+@font-face {
+  font-family: "interDeep";
+  src: url("./assets/fonts/Inter-ExtraBold.ttf");
+}
+@font-face {
+  font-family: "interFaint";
+  src: url("./assets/fonts/Inter-ExtraLight.ttf");
+}
+@font-face {
+  font-family: "interLite";
+  src: url("./assets/fonts/Inter-Light.ttf");
+}
+
+@font-face {
+  font-family: "interMedium";
+  src: url("./assets/fonts/Inter-Medium.ttf");
+}
+@font-face {
+  font-family: "interMidBold";
+  src: url("./assets/fonts/Inter-SemiBold.ttf");
+}
+@font-face {
+  font-family: "interThin";
+  src: url("./assets/fonts/Inter-Thin.ttf");
+}

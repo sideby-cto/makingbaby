@@ -1,0 +1,8 @@
+
+{
+  "name": "journey-monitor",
+  "version": "1.0.0",
+  "description": "Monitor user journey stages and send reminders as needed",
+  "verify_jwt": true,
+  "import_map": "../_shared/import_map.json"
+}

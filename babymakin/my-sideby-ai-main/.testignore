@@ -1,0 +1,5 @@
+
+**/*.test.tsx
+**/*.test.ts
+**/__tests__/**
+

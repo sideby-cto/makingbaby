@@ -1,0 +1,46 @@
+project_id = "upffcxqiozqhdgfesmji"
+
+[auth]
+# Enable custom auth emails
+enable_signup = true
+# Enable account linking for Google OAuth
+enable_manual_linking = true
+
+[functions.auth-email-handler]
+verify_jwt = false
+
+[functions.send-match-email]
+verify_jwt = false
+
+[functions.match-email-webhook] 
+verify_jwt = false
+
+[functions.render-email-template]
+verify_jwt = false
+
+[functions.upduo-webhook]
+verify_jwt = false
+
+[functions.upduo-api]
+verify_jwt = false
+
+[functions.webhook-health-check]
+verify_jwt = false
+
+[functions.find-upduo-users-by-name]
+verify_jwt = false
+
+[functions.process-upduo-queue]
+verify_jwt = false
+
+[functions.cleanup-invalid-transaction-ids]
+verify_jwt = false
+
+[functions.generate-idea-notification]
+verify_jwt = false
+
+[functions.send-match-notification]
+verify_jwt = false
+
+[functions.process-sms-notifications]
+verify_jwt = false

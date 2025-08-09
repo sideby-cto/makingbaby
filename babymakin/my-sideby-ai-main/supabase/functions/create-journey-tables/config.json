@@ -1,0 +1,8 @@
+
+{
+  "name": "create-journey-tables",
+  "version": "1.0.0",
+  "description": "Initialize journey tables and default data",
+  "verify_jwt": true,
+  "import_map": "../_shared/import_map.json"
+}

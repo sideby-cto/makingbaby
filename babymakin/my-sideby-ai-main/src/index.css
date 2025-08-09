@@ -1,0 +1,389 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+@import "./styles/chat.css";
+@import "./styles/chat-mobile.css";
+
+/* Clash Grotesk Font Face Declarations */
+@font-face {
+  font-family: 'Clash Grotesk';
+  src: url('/style/fonts/web/clashgrotesk/fonts/ClashGrotesk-Extralight.woff2') format('woff2'),
+       url('/style/fonts/web/clashgrotesk/fonts/ClashGrotesk-Extralight.woff') format('woff');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Clash Grotesk';
+  src: url('/style/fonts/web/clashgrotesk/fonts/ClashGrotesk-Light.woff2') format('woff2'),
+       url('/style/fonts/web/clashgrotesk/fonts/ClashGrotesk-Light.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Clash Grotesk';
+  src: url('/style/fonts/web/clashgrotesk/fonts/ClashGrotesk-Regular.woff2') format('woff2'),
+       url('/style/fonts/web/clashgrotesk/fonts/ClashGrotesk-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Clash Grotesk';
+  src: url('/style/fonts/web/clashgrotesk/fonts/ClashGrotesk-Medium.woff2') format('woff2'),
+       url('/style/fonts/web/clashgrotesk/fonts/ClashGrotesk-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Clash Grotesk';
+  src: url('/style/fonts/web/clashgrotesk/fonts/ClashGrotesk-Semibold.woff2') format('woff2'),
+       url('/style/fonts/web/clashgrotesk/fonts/ClashGrotesk-Semibold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Clash Grotesk';
+  src: url('/style/fonts/web/clashgrotesk/fonts/ClashGrotesk-Bold.woff2') format('woff2'),
+       url('/style/fonts/web/clashgrotesk/fonts/ClashGrotesk-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Clash Grotesk';
+  src: url('/style/fonts/web/clashgrotesk/fonts/ClashGrotesk-Variable.woff2') format('woff2'),
+       url('/style/fonts/web/clashgrotesk/fonts/ClashGrotesk-Variable.woff') format('woff');
+  font-weight: 200 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* VC Nudge Font Face Declarations */
+@font-face {
+  font-family: 'VC Nudge';
+  src: url('/style/fonts/web/VCNudgeNormal-Regular.woff2') format('woff2'),
+       url('/style/fonts/web/VCNudgeNormal-Regular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'VC Nudge';
+  src: url('/style/fonts/web/VCNudgeNormal-Medium.woff2') format('woff2'),
+       url('/style/fonts/web/VCNudgeNormal-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'VC Nudge';
+  src: url('/style/fonts/web/VCNudgeNormal-SemiBold.woff2') format('woff2'),
+       url('/style/fonts/web/VCNudgeNormal-SemiBold.woff') format('woff');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'VC Nudge';
+  src: url('/style/fonts/web/VCNudgeNormal-Bold.woff2') format('woff2'),
+       url('/style/fonts/web/VCNudgeNormal-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'VC Nudge';
+  src: url('/style/fonts/web/VCNudgeNormal-ExtraBold.woff2') format('woff2'),
+       url('/style/fonts/web/VCNudgeNormal-ExtraBold.woff') format('woff');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'VC Nudge';
+  src: url('/style/fonts/web/VCNudgeNormal-Black.woff2') format('woff2'),
+       url('/style/fonts/web/VCNudgeNormal-Black.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* PP Neue Machina Font Face Declarations */
+@font-face {
+  font-family: 'PP Neue Machina';
+  src: url('/style/fonts/web/PP Neue Machina/PPNeueMachina-PlainRegular.woff2') format('woff2'),
+       url('/style/fonts/web/PP Neue Machina/PPNeueMachina-PlainRegular.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 224 71.4% 4.1%;
+    --card: 0 0% 100%;
+    --card-foreground: 224 71.4% 4.1%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 224 71.4% 4.1%;
+    --primary: 26 100% 49%;
+    --primary-rgb: 248, 114, 1;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 220 14.3% 95.9%;
+    --secondary-foreground: 220.9 39.3% 11%;
+    --muted: 220 14.3% 95.9%;
+    --muted-foreground: 220 8.9% 46.1%;
+    --accent: 220 14.3% 95.9%;
+    --accent-foreground: 220.9 39.3% 11%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 20% 98%;
+    --success: 120 60% 45%;
+    --success-foreground: 210 20% 98%;
+    --warning: 45 93% 47%;
+    --warning-foreground: 210 20% 98%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 262.1 83.3% 57.8%;
+    --radius: 0.5rem;
+    
+    /* Classroom Cream Palette */
+    --classroom-cream: 45 33% 96%;
+    --classroom-cream-light: 45 40% 98%;
+    --classroom-cream-dark: 45 25% 92%;
+    --classroom-paper: 45 20% 94%;
+    --classroom-chalk: 45 15% 88%;
+    --classroom-wood: 30 25% 85%;
+    --classroom-warm: 40 35% 95%;
+    --classroom-accent: 35 60% 75%;
+    
+    /* Classroom UI Colors */
+    --classroom-orange: 26 100% 49%;
+    --classroom-border: 220 13% 91%;
+    --classroom-text-secondary: 220 8.9% 46.1%;
+    
+    /* New Color Palette */
+    --eraser-pink: 345, 85%, 90%;
+    --book-brown: 25, 40%, 45%;
+    --highlighter-pink: 330, 85%, 75%;
+    --highlighter-green: 120, 60%, 70%;
+    --highlighter-yellow: 48, 100%, 50%;
+  }
+
+  .dark {
+    --background: 224 71.4% 4.1%;
+    --foreground: 210 20% 98%;
+    --card: 224 71.4% 4.1%;
+    --card-foreground: 210 20% 98%;
+    --popover: 224 71.4% 4.1%;
+    --popover-foreground: 210 20% 98%;
+    --primary: 263.4 70% 50.4%;
+    --primary-rgb: 125, 95, 235;
+    --primary-foreground: 210 20% 98%;
+    --secondary: 215 27.9% 16.9%;
+    --secondary-foreground: 210 20% 98%;
+    --muted: 215 27.9% 16.9%;
+    --muted-foreground: 217.9 10.6% 64.9%;
+    --accent: 215 27.9% 16.9%;
+    --accent-foreground: 210 20% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 20% 98%;
+    --success: 120 60% 35%;
+    --success-foreground: 210 20% 98%;
+    --warning: 45 93% 37%;
+    --warning-foreground: 210 20% 98%;
+    --border: 215 27.9% 16.9%;
+    --input: 215 27.9% 16.9%;
+    --ring: 263.4 70% 50.4%;
+    
+    /* Dark mode classroom colors */
+    --classroom-cream: 30 15% 15%;
+    --classroom-cream-light: 30 18% 18%;
+    --classroom-cream-dark: 30 12% 12%;
+    --classroom-paper: 30 10% 16%;
+    --classroom-chalk: 30 8% 20%;
+    --classroom-wood: 25 20% 18%;
+    --classroom-warm: 35 20% 14%;
+    --classroom-accent: 35 40% 35%;
+    
+    /* Dark mode classroom UI colors */
+    --classroom-orange: 26 100% 49%;
+    --classroom-border: 215 27.9% 16.9%;
+    --classroom-text-secondary: 217.9 10.6% 64.9%;
+    
+    /* New Color Palette - Dark Mode */
+    --eraser-pink: 345, 70%, 70%;
+    --book-brown: 25, 30%, 35%;
+    --highlighter-pink: 330, 70%, 60%;
+    --highlighter-green: 120, 50%, 50%;
+    --highlighter-yellow: 48, 85%, 45%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  
+  /* Enhanced responsive text scaling */
+  html {
+    font-size: 14px;
+  }
+  
+  @media (min-width: 480px) {
+    html {
+      font-size: 15px;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    html {
+      font-size: 16px;
+    }
+  }
+  
+  /* Universal touch targets - improved for all devices */
+  button, a, input, select, textarea {
+    min-height: 40px;
+    @apply touch-manipulation;
+  }
+  
+  @media (min-width: 768px) {
+    button, a, input, select, textarea {
+      min-height: 44px;
+    }
+  }
+  
+  /* Enhanced container spacing */
+  .container {
+    @apply px-3;
+  }
+  
+  @media (min-width: 640px) {
+    .container {
+      @apply px-4;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .container {
+      @apply px-6;
+    }
+  }
+  
+  /* Improved button sizing across all breakpoints */
+  button {
+    @apply py-2 px-3;
+  }
+  
+  @media (min-width: 640px) {
+    button {
+      @apply py-2.5 px-4;
+    }
+  }
+  
+  @media (min-width: 768px) {
+    button {
+      @apply py-3 px-4;
+    }
+  }
+  
+  /* Form inputs prevent zoom on all mobile devices */
+  input, textarea, select {
+    @apply text-base;
+  }
+  
+  /* Dialog and modal improvements */
+  [role="dialog"], .dialog-content {
+    max-width: calc(100vw - 2rem);
+    max-height: calc(100vh - 2rem);
+  }
+  
+  @media (min-width: 640px) {
+    [role="dialog"], .dialog-content {
+      max-width: calc(100vw - 3rem);
+      max-height: calc(100vh - 3rem);
+    }
+  }
+}
+
+/* Enhanced focus states for accessibility */
+:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Disable smooth scrolling temporarily on load */
+.disable-smooth-scroll {
+  scroll-behavior: auto !important;
+}
+
+/* Enhanced utility classes for all screen sizes */
+@layer utilities {
+  .safe-area-insets {
+    padding-top: max(env(safe-area-inset-top), 0.5rem);
+    padding-bottom: max(env(safe-area-inset-bottom), 0.5rem);
+    padding-left: max(env(safe-area-inset-left), 0.75rem);
+    padding-right: max(env(safe-area-inset-right), 0.75rem);
+  }
+  
+  .enhanced-scroll {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    scroll-behavior: smooth;
+  }
+  
+  .universal-tap {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    user-select: none;
+  }
+  
+  /* Text size utilities that scale properly */
+  .text-responsive-xs {
+    @apply text-xs sm:text-sm;
+  }
+  
+  .text-responsive-sm {
+    @apply text-sm sm:text-base;
+  }
+  
+  .text-responsive-base {
+    @apply text-sm sm:text-base md:text-lg;
+  }
+  
+  .text-responsive-lg {
+    @apply text-base sm:text-lg md:text-xl;
+  }
+  
+  .text-responsive-xl {
+    @apply text-lg sm:text-xl md:text-2xl;
+  }
+}
+
+.debug {
+  @apply bg-red-500;
+}
+.debug1 {
+  @apply border-red-500 border-2;
+}
+.debug2 {
+  @apply bg-green-500 border-2;
+}

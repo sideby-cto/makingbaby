@@ -1,0 +1,2 @@
+
+export { NotificationTemplateDialog } from './NotificationTemplateDialog';

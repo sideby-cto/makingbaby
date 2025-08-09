@@ -1,0 +1,2 @@
+# Allow the function to be called from the browser
+allowed_http_methods = ["POST", "OPTIONS"]

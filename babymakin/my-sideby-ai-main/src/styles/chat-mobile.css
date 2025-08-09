@@ -1,0 +1,90 @@
+/* Mobile-optimized chat styles */
+.chat-scrollbar {
+  /* Hide scrollbar on mobile while keeping functionality */
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
+}
+
+.chat-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.chat-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.chat-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+}
+
+.chat-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Mobile touch targets */
+@media (max-width: 768px) {
+  /* Ensure touch targets are at least 44px */
+  .touch-manipulation {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Improve text selection on mobile */
+  .message-content {
+    -webkit-user-select: text;
+    user-select: text;
+    -webkit-touch-callout: default;
+  }
+
+  /* Prevent zoom on input focus */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  textarea {
+    font-size: 16px;
+  }
+
+  /* Safe area handling for devices with notches */
+  .safe-area-bottom {
+    padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+  }
+
+  .safe-area-top {
+    padding-top: max(0.75rem, env(safe-area-inset-top));
+  }
+
+  /* Improve keyboard handling */
+  .chat-input-container {
+    position: sticky;
+    bottom: 0;
+    background: white;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Improve performance on mobile */
+@media (max-width: 768px) {
+  .message-bubble {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+
+  .chat-container {
+    contain: layout style paint;
+  }
+}
+
+/* Custom focus styles for better accessibility */
+.mobile-focus:focus-visible {
+  outline: 2px solid hsl(var(--primary));
+  outline-offset: 2px;
+}
+
+/* Message bubble hover states for desktop only */
+@media (min-width: 769px) {
+  .message-bubble:hover {
+    transform: translateY(-1px);
+    transition: transform 0.2s ease;
+  }
+}

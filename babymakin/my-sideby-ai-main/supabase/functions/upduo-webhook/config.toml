@@ -1,0 +1,9 @@
+
+# Allow the function to be called from external services
+allowed_http_methods = ["POST", "OPTIONS"]
+verify_jwt = false
+
+# Allow specific secrets to be accessible to this function
+[secrets]
+UPDUO_CLIENT_SECRET = "UPDUO_CLIENT_SECRET"
+SLACK_FIRSTAUTH_WEBHOOK_URL = "SLACK_FIRSTAUTH_WEBHOOK_URL"

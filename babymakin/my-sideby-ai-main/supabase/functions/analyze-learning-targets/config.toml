@@ -1,0 +1,4 @@
+
+project_id = "supabase"
+app_id = ""
+api_url = "/api/functions/analyze-learning-targets"

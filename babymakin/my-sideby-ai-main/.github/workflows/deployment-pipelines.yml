@@ -1,0 +1,58 @@
+name: API Tests
+
+on:
+  push:
+    branches: [main, staging]
+  pull_request:
+    branches: [main, staging]
+  workflow_dispatch:
+
+jobs:
+  playwright-tests:
+    runs-on: ubuntu-latest
+    env:
+      VITE_SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+      VITE_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - run: npm ci --force
+
+      - run: npx playwright install --with-deps
+
+      - run: npx playwright test tests/sideby.spec.ts
+
+      - name: Upload Playwright logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+      - name: Slack Notification
+        if: always()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_CHANNEL: "#general"
+          SLACK_COLOR: ${{ job.status == 'success' && 'good' || 'danger' }}
+          SLACK_TITLE: "Playwright Tests"
+          SLACK_MESSAGE: |
+            Playwright tests ${{ job.status }}.
+            Commit: ${{ github.sha }}
+            Ref: ${{ github.ref }}
+            Workflow: ${{ github.workflow }}
+          SLACK_USERNAME: Playwright Tests
+          SLACK_WEBHOOK: ${{ secrets.SLACK_FIRSTAUTH_WEBHOOK_URL }}
+
+      - name: Build
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/staging')
+        run: npm run build --legacy-peer-deps

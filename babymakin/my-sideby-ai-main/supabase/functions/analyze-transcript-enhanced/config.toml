@@ -1,0 +1,9 @@
+
+# Allow the function to be called from the browser
+allowed_http_methods = ["POST", "OPTIONS"]
+
+# Allow specific secrets to be accessible to this function
+[secrets]
+OPENAI_API_KEY = "OPENAI_API_KEY"
+UPSTASH_REDIS_REST_URL = "UPSTASH_REDIS_REST_URL"
+UPSTASH_REDIS_REST_TOKEN = "UPSTASH_REDIS_REST_TOKEN"

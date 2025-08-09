@@ -1,0 +1,161 @@
+# .github/workflows/sync-staging-to-prod-schema.yml
+name: Sync Staging → Production Schema 🚀
+
+# You can choose either:
+#  • on: workflow_dispatch      (manual trigger)
+#  • on:
+#      push:
+#        branches: [ "staging" ]  (auto-trigger on push to staging)
+on:
+  workflow_dispatch:
+permissions:
+  contents: write # <— this line is mandatory if you want to `git push` from inside the job
+
+env:
+  # These should be defined in Settings → Secrets
+  SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+  SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+  SUPABASE_STAGING_REF: ${{ secrets.SUPABASE_STAGING_REF }}
+  SUPABASE_PROD_REF: ${{ secrets.SUPABASE_PROD_REF }}
+
+jobs:
+  sync_staging:
+    runs-on: ubuntu-latest
+    outputs:
+      # We will set this to "true" if a new migration file was committed
+      MIGRATION_ADDED: ${{ steps.commit_migrations.outputs.MIGRATION_ADDED }}
+    steps:
+      # 1) Check out the repo
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # 2) Install Supabase CLI
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      # 3) Link to Staging, pull + repair migrations if needed
+      - name: Sync Staging Schema
+        id: sync_staging
+        run: |
+          set -euo pipefail
+          mkdir -p logs
+
+          echo "=== Linking to Staging ===" | tee logs/link_staging.log
+          supabase link \
+            --project-ref "$SUPABASE_STAGING_REF" \
+            --password   "$SUPABASE_DB_PASSWORD" \
+          2>&1 | tee -a logs/link_staging.log
+
+          echo "=== Attempting supabase db pull ===" | tee logs/db_pull_initial.log
+          if ! supabase db pull 2>&1 | tee -a logs/db_pull_initial.log; then
+            echo "→ Migration‐history mismatch detected. Repairing…" | tee -a logs/repair.log
+
+            MIG_LIST="$(supabase migration list)"
+
+            # 3A) Remote‐only = remote_ts is a numeric timestamp, local_ts is empty
+            echo "$MIG_LIST" \
+              | awk -F '[|]' '{
+                  local_ts = $1; remote_ts = $2;
+                  gsub(/[[:space:]]/, "", local_ts);
+                  gsub(/[[:space:]]/, "", remote_ts);
+                  # Only proceed if remote_ts is all digits AND local_ts is empty
+                  if (remote_ts ~ /^[0-9]+$/ && local_ts == "") print remote_ts
+                }' \
+              | while read -r TS; do
+                  echo "→ Reverting remote‐only migration: $TS" | tee -a logs/repair.log
+                  supabase migration repair --status reverted "$TS" 2>&1 | tee -a logs/repair.log
+                done
+
+            # 3B) Local‐only = local_ts is a numeric timestamp, remote_ts is empty
+            echo "$MIG_LIST" \
+              | awk -F '[|]' '{
+                  local_ts = $1; remote_ts = $2;
+                  gsub(/[[:space:]]/, "", local_ts);
+                  gsub(/[[:space:]]/, "", remote_ts);
+                  # Only proceed if local_ts is all digits AND remote_ts is empty
+                  if (local_ts ~ /^[0-9]+$/ && remote_ts == "") print local_ts
+                }' \
+              | while read -r TS; do
+                  echo "→ Marking local‐only migration as applied: $TS" | tee -a logs/repair.log
+                  supabase migration repair --status applied "$TS" 2>&1 | tee -a logs/repair.log
+                done
+
+            echo "=== Re‐attempting supabase db pull after repair ===" | tee -a logs/db_pull_repaired.log
+            supabase db pull 2>&1 | tee -a logs/db_pull_repaired.log || true
+
+          else
+            echo "→ No migration‐history mismatch. Pull succeeded." | tee -a logs/db_pull_initial.log
+          fi
+
+      # 4) Detect & commit any newly generated migration file(s)
+      - name: Commit new migrations (if any)
+        id: commit_migrations
+        run: |
+          set -euo pipefail
+
+          # Configure git user for the commit
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Stage any new SQL under supabase/migrations
+          git add supabase/migrations/*.sql
+
+          if git diff --cached --quiet; then
+            echo "→ No new migrations to commit." 
+            echo "MIGRATION_ADDED=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "→ New migration(s) detected. Committing changes." 
+            git commit -m "chore(migrations): sync staging schema"
+            git push
+            echo "MIGRATION_ADDED=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # 5) Upload logs as artifact (optional)
+      - name: Upload Logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: supabase-staging-sync-logs
+          path: logs/
+
+  deploy_prod:
+    needs: sync_staging
+    runs-on: ubuntu-latest
+    if: needs.sync_staging.outputs.MIGRATION_ADDED == 'true'
+    steps:
+      # 1) Check out the repo again (so we have the newly committed migration)
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      # 2) Install Supabase CLI
+      - name: Setup Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      # 3) Link to Production + dry-run + apply migrations
+      - name: Deploy to Production
+        run: |
+          set -euo pipefail
+          mkdir -p logs
+
+          echo "=== [Step 3.1] Linking to Production (ref: $SUPABASE_PROD_REF) ===" | tee logs/link_prod.log
+          supabase link \
+            --project-ref "$SUPABASE_PROD_REF" \
+            --password   "$SUPABASE_DB_PASSWORD" \
+          2>&1 | tee -a logs/link_prod.log
+
+          echo "=== [Step 3.2] Dry-run supabase db push ===" | tee logs/db_push_dryrun.log
+          # We ignore errors here so we can inspect the dry-run logs
+          supabase db push --linked --dry-run 2>&1 | tee -a logs/db_push_dryrun.log || true
+
+          echo "=== [Step 3.3] Applying migrations to Production ===" | tee logs/db_push_apply.log
+          echo "y" | supabase db push --linked 2>&1 | tee -a logs/db_push_apply.log
+
+      # 4) Upload logs for the production push !
+      - name: Upload Production Logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: supabase-prod-deploy-logs
+          path: logs/

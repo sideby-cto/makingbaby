@@ -1,0 +1,18 @@
+
+{
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ],
+  "framework": "vite",
+  "buildCommand": "npm run build --force --legacy-peer-deps",
+  "outputDirectory": "dist",
+  "git": {
+    "deploymentEnabled": {
+      "main": true,
+      "staging": true
+    },
+    "commitMessages": {
+      "enableForce": true
+    }
+  }
+}
