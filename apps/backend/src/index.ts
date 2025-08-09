@@ -1,4 +1,5 @@
 import express from 'express';
+import storiesRouter from './stories';
 
 import mongoose from 'mongoose';
 import { config } from './config';
@@ -20,9 +21,13 @@ const port = config.port;
 app.use(express.json());
 app.use('/auth', authRouter);
 
+app.use(express.json());
+
 app.get('/api/hello', (_req, res) => {
   res.json({ message: 'Hello from backend' });
 });
+
+app.use('/api/stories', storiesRouter);
 
 app.listen(port, () => {
   console.log(`Backend listening on port ${port}`);
