@@ -27,3 +27,23 @@ Run frontend:
 ```
 npm run dev -w frontend
 ```
+
+## Testing
+
+Run all tests:
+
+```
+npm test
+```
+
+Run backend tests:
+
+```
+npm test -w backend
+```
+
+Run frontend tests:
+
+```
+npm test -w frontend
+```
