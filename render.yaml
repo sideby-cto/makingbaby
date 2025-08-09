@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: makingbaby-backend
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build -w backend
+    startCommand: node apps/backend/dist/index.js
+    envVars:
+      - key: PORT
+        value: 3000
